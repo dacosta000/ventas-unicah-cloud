@@ -6,3 +6,6 @@ COPY ./odoo.conf /etc/odoo/odoo.conf
 RUN chown -R odoo:odoo /mnt/extra-addons /etc/odoo/odoo.conf
 
 USER odoo
+
+USER odoo
+CMD ["odoo", "-c", "/etc/odoo/odoo.conf", "-d", "odoo-db-unicah", "-i", "base", "--without-demo=all"]
