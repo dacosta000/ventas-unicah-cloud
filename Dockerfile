@@ -7,12 +7,11 @@ RUN mkdir -p /opt/odoo-data && chown -R odoo:odoo /mnt/extra-addons /etc/odoo/od
 
 USER odoo
 RUN odoo -c /etc/odoo/odoo.conf -d odoo-db-unicah -u web,ventas_unicah --stop-after-init \
-    && (odoo -c /etc/odoo/odoo.conf & \
-        ODOO_PID=$!; \
-        sleep 15; \
-        curl -sL http://127.0.0.1:8069/web/login > /dev/null; \
-        sleep 5; \
-        kill $ODOO_PID; \
-        wait $ODOO_PID || true)
+    && python3 -c "import odoo; odoo.tools.config.parse_config(['-c', '/etc/odoo/odoo.conf', '-d', 'odoo-db-unicah']); registry = odoo.registry('odoo-db-unicah'); \
+    with registry.cursor() as cr: \
+        env = odoo.api.Environment(cr, 1, {}); \
+        env['ir.qweb']._get_asset_nodes('web.assets_frontend', css=True, js=True); \
+        env['ir.qweb']._get_asset_nodes('web.assets_web', css=True, js=True); \
+        cr.commit()"
 
 CMD ["odoo", "-c", "/etc/odoo/odoo.conf"]
