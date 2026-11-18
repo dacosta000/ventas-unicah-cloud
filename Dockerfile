@@ -7,4 +7,4 @@ COPY ./odoo.conf /etc/odoo/odoo.conf
 RUN chown -R odoo:odoo /mnt/extra-addons /etc/odoo/odoo.conf
 
 USER odoo
-CMD ["sh", "-c", "PGPASSWORD=npg_3VBTWwd8yMPb psql -h ep-misty-sound-beo4slkf-pooler.c-9.us-east-2.aws.neon.tech -U odoo-db-unicah_owner -d odoo-db-unicah -c \"DELETE FROM ir_attachment WHERE url LIKE '/web/assets/%';\" || true; exec odoo -c /etc/odoo/odoo.conf -d odoo-db-unicah -i base,ventas_unicah --without-demo=all"]
+CMD ["sh", "-c", "PGPASSWORD=npg_3VBTWwd8yMPb psql -h ep-misty-sound-beo4slkf-pooler.c-9.us-east-2.aws.neon.tech -U odoo-db-unicah_owner -d odoo-db-unicah -c \"DELETE FROM ir_attachment WHERE url LIKE '/web/assets/%';\" || true; exec odoo -c /etc/odoo/odoo.conf -d odoo-db-unicah"]
